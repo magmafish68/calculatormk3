@@ -9,6 +9,7 @@ fn Calculator() -> Html {
     let second_number = use_state(|| 0);
     let operator = use_state(|| 0);
     let display = use_state(|| String::from(""));
+    
     let equals = {
         let second_number = second_number.clone();
         let first_number = first_number.clone();
@@ -67,7 +68,8 @@ fn Calculator() -> Html {
             display.set(String::from(""));
     })
     };
-    let plus = {
+
+    let operator_update = |operator_type: i32|{
         let operator = operator.clone();
         let first_number = first_number.clone();
         let current_number = current_number.clone();
@@ -76,65 +78,15 @@ fn Calculator() -> Html {
         Callback::from(move |_: MouseEvent| {
             if *ticker == 0 {
             ticker.set(1);
-            operator.set(1);
+            operator.set(operator_type);
             first_number.set(*current_number);
             current_number.set(0);
-            display.set(String::from(""));
+            display.set(String::new());
         }
         else{}
     })
     };
-        let minus = {
-        let operator = operator.clone();
-        let first_number = first_number.clone();
-        let current_number = current_number.clone();
-        let ticker = ticker.clone();
-        let display = display.clone();
-        Callback::from(move |_: MouseEvent| {
-            if *ticker == 0 {
-            ticker.set(1);
-            operator.set(2);
-            first_number.set(*current_number);
-            current_number.set(0);
-            display.set(String::from(""));
-        }
-        else{}
-    })
-    };
-        let multiply = {
-        let operator = operator.clone();
-        let first_number = first_number.clone();
-        let current_number = current_number.clone();
-        let ticker = ticker.clone();
-        let display = display.clone();
-        Callback::from(move |_: MouseEvent| {
-            if *ticker == 0 {
-            ticker.set(1);
-            operator.set(3);
-            first_number.set(*current_number);
-            current_number.set(0);
-            display.set(String::from(""));
-        }
-        else{}
-    })
-    };
-        let divide = {
-        let operator = operator.clone();
-        let first_number = first_number.clone();
-        let current_number = current_number.clone();
-        let ticker = ticker.clone();
-        let display = display.clone();
-        Callback::from(move |_: MouseEvent| {
-            if *ticker == 0 {
-            ticker.set(1);
-            operator.set(4);
-            first_number.set(*current_number);
-            current_number.set(0);
-            display.set(String::from(""));
-        }
-        else{}
-    })
-    };
+
         let digit_update = |digit: i32| {
         let current_number = current_number.clone();
         let display = display.clone();
@@ -154,25 +106,25 @@ fn Calculator() -> Html {
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(7)}>{ "7" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(8)}>{ "8" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(9)}>{"9"}</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={divide}>{ "/" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(4)}>{ "/" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(4)}>{ "4" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(5)}>{ "5" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(6)}>{ "6" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={multiply}>{ "*" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(3)}>{ "*" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(1)}>{ "1" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(2)}>{ "2" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(3)}>{ "3" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={minus}>{ "-" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(2)}>{ "-" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={clear}>{ "C" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(0)}>{ "0" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={equals}>{ "=" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={plus}>{ "+" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(1)}>{ "+" }</button>
         </div>
         </div>
     }
