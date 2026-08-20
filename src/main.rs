@@ -135,7 +135,7 @@ fn Calculator() -> Html {
         else{}
     })
     };
-                let digit_update = |digit: i32| {
+        let digit_update = |digit: i32| {
         let current_number = current_number.clone();
         let display = display.clone();
         Callback::from(move |_: MouseEvent|  {
