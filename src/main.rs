@@ -135,95 +135,14 @@ fn Calculator() -> Html {
         else{}
     })
     };
-    let nine = {
+                let digit_update = |digit: i32| {
         let current_number = current_number.clone();
         let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 9;
+        Callback::from(move |_: MouseEvent|  {
+            let value = *current_number *10 + digit;
             current_number.set(value);
             display.set({*current_number}.to_string());
-        }
-    };
-        let eight = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 8;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-        let seven = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 7;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-        let six = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 6;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-        let five = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 5;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-        let four = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 4;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-        let three = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 3;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-    let two = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 2;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-        let one = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10 + 1;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
-    };
-            let zero = {
-        let current_number = current_number.clone();
-        let display = display.clone();
-        move |_| {
-            let value = *current_number *10;
-            current_number.set(value);
-            display.set({*current_number}.to_string());
-        }
+        })
     };
 
     html! {
@@ -232,26 +151,26 @@ fn Calculator() -> Html {
             <button style="width: 310px; height: 70px; font-size: 50px; text-align: right">{ <String as Clone>::clone(&*display) }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={seven}>{ "7" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={eight}>{ "8" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={nine}>{"9"}</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(7)}>{ "7" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(8)}>{ "8" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(9)}>{"9"}</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={divide}>{ "/" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={four}>{ "4" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={five}>{ "5" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={six}>{ "6" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(4)}>{ "4" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(5)}>{ "5" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(6)}>{ "6" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={multiply}>{ "*" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={one}>{ "1" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={two}>{ "2" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={three}>{ "3" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(1)}>{ "1" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(2)}>{ "2" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(3)}>{ "3" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={minus}>{ "-" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={clear}>{ "C" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={zero}>{ "0" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(0)}>{ "0" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={equals}>{ "=" }</button>
             <button style="width: 70px; height: 70px; font-size: 50px;" onclick={plus}>{ "+" }</button>
         </div>
