@@ -1,0 +1,264 @@
+use yew::prelude::*;
+use num_integer::gcd;
+
+#[component]
+fn Calculator() -> Html {
+    let current_number = use_state(|| 0);
+    let ticker = use_state(|| 0);
+    let first_number = use_state(|| 0);
+    let second_number = use_state(|| 0);
+    let operator = use_state(|| 0);
+    let display = use_state(|| String::from(""));
+    let equals = {
+        let second_number = second_number.clone();
+        let first_number = first_number.clone();
+        let current_number = current_number.clone();
+        let operator = operator.clone();
+        let ticker = ticker.clone();
+        let display = display.clone();
+        Callback::from(move |_: MouseEvent| {
+            if *ticker == 1 {
+            ticker.set(2);
+            second_number.set(*current_number);
+            if *operator == 1 {
+            current_number.set(*first_number + *second_number);
+            display.set({*current_number}.to_string())
+            }
+            else if *operator == 2 {
+            current_number.set(*first_number - *second_number);
+            display.set({*current_number}.to_string())
+            }
+            else if *operator == 3 {
+            current_number.set(*first_number * *second_number);
+            display.set({*current_number}.to_string())
+            }
+            else if *operator == 4 {
+            let greatestcommondivisor: i32 = gcd(*first_number, *second_number);
+            if *second_number/greatestcommondivisor > 1{
+            display.set({*first_number/greatestcommondivisor}.to_string() + "/" + &{*second_number/greatestcommondivisor}.to_string());
+            }
+            else if {*second_number/greatestcommondivisor} == 1 {
+            display.set({*first_number/greatestcommondivisor}.to_string());
+            }
+            else if *second_number == 0 {
+                display.set("divide by zero error".to_string());
+            }
+        }   current_number.set(0);
+            second_number.set(0);
+            first_number.set(0);
+            ticker.set(0);
+        }
+        else{}
+    })
+    };
+        let clear = {
+        let second_number = second_number.clone();
+        let first_number = first_number.clone();
+        let current_number = current_number.clone();
+        let operator = operator.clone();
+        let ticker = ticker.clone();
+        let display = display.clone();
+        Callback::from(move |_: MouseEvent| {
+            ticker.set(0);
+            second_number.set(0);
+            first_number.set(0);
+            current_number.set(0);
+            operator.set(0);
+            display.set(String::from(""));
+    })
+    };
+    let plus = {
+        let operator = operator.clone();
+        let first_number = first_number.clone();
+        let current_number = current_number.clone();
+        let ticker = ticker.clone();
+        let display = display.clone();
+        Callback::from(move |_: MouseEvent| {
+            if *ticker == 0 {
+            ticker.set(1);
+            operator.set(1);
+            first_number.set(*current_number);
+            current_number.set(0);
+            display.set(String::from(""));
+        }
+        else{}
+    })
+    };
+        let minus = {
+        let operator = operator.clone();
+        let first_number = first_number.clone();
+        let current_number = current_number.clone();
+        let ticker = ticker.clone();
+        let display = display.clone();
+        Callback::from(move |_: MouseEvent| {
+            if *ticker == 0 {
+            ticker.set(1);
+            operator.set(2);
+            first_number.set(*current_number);
+            current_number.set(0);
+            display.set(String::from(""));
+        }
+        else{}
+    })
+    };
+        let multiply = {
+        let operator = operator.clone();
+        let first_number = first_number.clone();
+        let current_number = current_number.clone();
+        let ticker = ticker.clone();
+        let display = display.clone();
+        Callback::from(move |_: MouseEvent| {
+            if *ticker == 0 {
+            ticker.set(1);
+            operator.set(3);
+            first_number.set(*current_number);
+            current_number.set(0);
+            display.set(String::from(""));
+        }
+        else{}
+    })
+    };
+        let divide = {
+        let operator = operator.clone();
+        let first_number = first_number.clone();
+        let current_number = current_number.clone();
+        let ticker = ticker.clone();
+        let display = display.clone();
+        Callback::from(move |_: MouseEvent| {
+            if *ticker == 0 {
+            ticker.set(1);
+            operator.set(4);
+            first_number.set(*current_number);
+            current_number.set(0);
+            display.set(String::from(""));
+        }
+        else{}
+    })
+    };
+    let nine = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 9;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let eight = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 8;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let seven = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 7;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let six = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 6;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let five = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 5;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let four = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 4;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let three = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 3;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+    let two = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 2;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+        let one = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10 + 1;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+            let zero = {
+        let current_number = current_number.clone();
+        let display = display.clone();
+        move |_| {
+            let value = *current_number *10;
+            current_number.set(value);
+            display.set({*current_number}.to_string());
+        }
+    };
+
+    html! {
+        <div style = "display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button style="width: 310px; height: 70px; font-size: 50px; text-align: right">{ <String as Clone>::clone(&*display) }</button>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={seven}>{ "7" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={eight}>{ "8" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={nine}>{"9"}</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={divide}>{ "/" }</button>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={four}>{ "4" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={five}>{ "5" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={six}>{ "6" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={multiply}>{ "*" }</button>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={one}>{ "1" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={two}>{ "2" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={three}>{ "3" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={minus}>{ "-" }</button>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={clear}>{ "C" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={zero}>{ "0" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={equals}>{ "=" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={plus}>{ "+" }</button>
+        </div>
+        </div>
+    }
+}
+
+fn main() {
+    yew::Renderer::<Calculator>::new().render();
+}

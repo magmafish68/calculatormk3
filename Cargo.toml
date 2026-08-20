@@ -1,0 +1,8 @@
+[package]
+name = "calculatormk3"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+num-integer = "0.1.47"
+yew = { version = "0.23", features = ["csr"] }
