@@ -12,6 +12,7 @@ fn Calculator() -> Html {
     let current_number_numerator = use_state(|| 0);
     let current_number_denominator = use_state(|| 0);
     let fraction = use_state(|| 0);
+
     let equals = {
         let second_number = second_number.clone();
         let first_number = first_number.clone();
@@ -44,7 +45,6 @@ fn Calculator() -> Html {
             display.set({*current_number}.to_string());
             fraction.set(0)
             }
-            
             }
             else if *operator == 2 {
             let greatestcommondivisor: i32 = gcd(*current_number_numerator - (*second_number * *current_number_denominator), *current_number_denominator);
@@ -103,6 +103,7 @@ fn Calculator() -> Html {
         else{}
     })
     };
+    
         let clear = {
         let second_number = second_number.clone();
         let first_number = first_number.clone();
@@ -153,33 +154,38 @@ fn Calculator() -> Html {
     };
 
     html! {
+        <div style = "display: flex; justify-content: center; align-items: center;">
+        <div style = "background-color: gray; display: flex; justify-content: center; align-items: center; width: 330px; height: 410px; border: 3px solid black;"> <p>
         <div style = "display: flex; flex-direction: column; gap: 10px;">
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 310px; height: 70px; font-size: 50px; text-align: right">{ <String as Clone>::clone(&*display) }</button>
+            <button style="background-color: lightgray; width: 310px; height: 70px; font-size: 50px; text-align: right; border: 2px solid black;">{ <String as Clone>::clone(&*display) }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(7)}>{ "7" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(8)}>{ "8" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(9)}>{"9"}</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(4)}>{ "/" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(7)}>{ "7" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(8)}>{ "8" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(9)}>{"9"}</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={operator_update(4)}>{ "/" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(4)}>{ "4" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(5)}>{ "5" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(6)}>{ "6" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(3)}>{ "*" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(4)}>{ "4" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(5)}>{ "5" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(6)}>{ "6" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={operator_update(3)}>{ "*" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(1)}>{ "1" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(2)}>{ "2" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(3)}>{ "3" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(2)}>{ "-" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(1)}>{ "1" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(2)}>{ "2" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(3)}>{ "3" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={operator_update(2)}>{ "-" }</button>
         </div>
         <div style="display: flex; justify-content: center; gap: 10px;">
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={clear}>{ "C" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={digit_update(0)}>{ "0" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={equals}>{ "=" }</button>
-            <button style="width: 70px; height: 70px; font-size: 50px;" onclick={operator_update(1)}>{ "+" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={clear}>{ "C" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={digit_update(0)}>{ "0" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={equals}>{ "=" }</button>
+            <button style="width: 70px; height: 70px; font-size: 50px; border: 2px solid black; background-color: whitesmoke;" onclick={operator_update(1)}>{ "+" }</button>
+        </div>
+        </div>
+        </p>
         </div>
         </div>
     }
