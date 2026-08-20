@@ -1,6 +1,5 @@
 use yew::prelude::*;
 use num_integer::gcd;
-use num_rational::Ratio;
 
 #[component]
 fn Calculator() -> Html {
