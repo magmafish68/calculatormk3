@@ -1,5 +1,6 @@
 use yew::prelude::*;
 use num_integer::gcd;
+use num_rational::Ratio;
 
 #[component]
 fn Calculator() -> Html {
@@ -9,7 +10,9 @@ fn Calculator() -> Html {
     let second_number = use_state(|| 0);
     let operator = use_state(|| 0);
     let display = use_state(|| String::from(""));
-    
+    let current_number_numerator = use_state(|| 0);
+    let current_number_denominator = use_state(|| 0);
+    let fraction = use_state(|| 0);
     let equals = {
         let second_number = second_number.clone();
         let first_number = first_number.clone();
@@ -17,34 +20,83 @@ fn Calculator() -> Html {
         let operator = operator.clone();
         let ticker = ticker.clone();
         let display = display.clone();
+        let current_number_numerator = current_number_numerator.clone();
+        let current_number_denominator = current_number_denominator.clone();
+        let fraction = fraction.clone();
         Callback::from(move |_: MouseEvent| {
             if *ticker == 1 {
             ticker.set(2);
             second_number.set(*current_number);
+            if *fraction == 0 {
+            current_number_numerator.set(*first_number);
+            current_number_denominator.set(1)
+            }
             if *operator == 1 {
+            let greatestcommondivisor: i32 = gcd(*current_number_numerator + (*second_number * *current_number_denominator), *current_number_denominator);
+            if *fraction == 1 {
+            current_number.set(0);
+            fraction.set(1);
+            current_number_numerator.set((*current_number_numerator + (*second_number * *current_number_denominator))/ greatestcommondivisor);
+            current_number_denominator.set(*current_number_denominator / greatestcommondivisor);
+            display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+            }
+            else {
             current_number.set(*first_number + *second_number);
-            display.set({*current_number}.to_string())
+            display.set({*current_number}.to_string());
+            fraction.set(0)
+            }
+            
             }
             else if *operator == 2 {
+            let greatestcommondivisor: i32 = gcd(*current_number_numerator - (*second_number * *current_number_denominator), *current_number_denominator);
+            if *fraction == 1 {
+            current_number.set(0);
+            fraction.set(1);
+            current_number_numerator.set((*current_number_numerator - (*second_number * *current_number_denominator))/ greatestcommondivisor);
+            current_number_denominator.set(*current_number_denominator / greatestcommondivisor);
+            display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+            }
+            else {
             current_number.set(*first_number - *second_number);
-            display.set({*current_number}.to_string())
+            display.set({*current_number}.to_string());
+            fraction.set(0)
+            }
             }
             else if *operator == 3 {
-            current_number.set(*first_number * *second_number);
-            display.set({*current_number}.to_string())
+            let greatestcommondivisor: i32 = gcd(*current_number_numerator * *second_number, *current_number_denominator);
+            if *current_number_denominator/greatestcommondivisor == 1 {
+            current_number.set((*current_number_numerator * *second_number) / greatestcommondivisor);
+            display.set({*current_number}.to_string());
+            fraction.set(0)
+            }
+            else if *current_number_denominator/greatestcommondivisor > 1 {
+                current_number_numerator.set((*current_number_numerator * *second_number) / greatestcommondivisor);
+                current_number_denominator.set(*current_number_denominator / greatestcommondivisor);
+                fraction.set(1);
+                display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+            }
             }
             else if *operator == 4 {
-            let greatestcommondivisor: i32 = gcd(*first_number, *second_number);
-            if *second_number/greatestcommondivisor > 1{
-            display.set({*first_number/greatestcommondivisor}.to_string() + "/" + &{*second_number/greatestcommondivisor}.to_string());
+            let greatestcommondivisor: i32 = gcd(*current_number_numerator, *second_number * *current_number_denominator);
+            if (*second_number * *current_number_denominator)/greatestcommondivisor > 1{
+            current_number_numerator.set(*current_number_numerator/greatestcommondivisor);
+            current_number_denominator.set(*second_number * *current_number_denominator/greatestcommondivisor);
+            fraction.set(1);
+            display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
             }
-            else if {*second_number/greatestcommondivisor} == 1 {
-            display.set({*first_number/greatestcommondivisor}.to_string());
+            else if {(*second_number * *current_number_denominator)/greatestcommondivisor} == 1 {
+            current_number.set(*current_number_numerator/greatestcommondivisor);
+            display.set({*current_number}.to_string());
+            fraction.set(0);
             }
             else if *second_number == 0 {
-                display.set("divide by zero error".to_string());
+                display.set("error".to_string());
+                current_number.set(0);
+                current_number_denominator.set(0);
+                current_number_numerator.set(0);
+                fraction.set(0);
             }
-        }   current_number.set(0);
+        }   
             second_number.set(0);
             first_number.set(0);
             ticker.set(0);
@@ -59,11 +111,17 @@ fn Calculator() -> Html {
         let operator = operator.clone();
         let ticker = ticker.clone();
         let display = display.clone();
+        let current_number_numerator = current_number_numerator.clone();
+        let current_number_denominator = current_number_denominator.clone();
+        let fraction = fraction.clone();
         Callback::from(move |_: MouseEvent| {
             ticker.set(0);
             second_number.set(0);
             first_number.set(0);
             current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            fraction.set(0);
             operator.set(0);
             display.set(String::from(""));
     })
@@ -74,14 +132,12 @@ fn Calculator() -> Html {
         let first_number = first_number.clone();
         let current_number = current_number.clone();
         let ticker = ticker.clone();
-        let display = display.clone();
         Callback::from(move |_: MouseEvent| {
             if *ticker == 0 {
             ticker.set(1);
             operator.set(operator_type);
             first_number.set(*current_number);
             current_number.set(0);
-            display.set(String::new());
         }
         else{}
     })
