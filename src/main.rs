@@ -38,12 +38,35 @@ fn Calculator() -> Html {
             fraction.set(1);
             current_number_numerator.set((*current_number_numerator + (*second_number * *current_number_denominator))/ greatestcommondivisor);
             current_number_denominator.set(*current_number_denominator / greatestcommondivisor);
+            if ({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string()).chars().count() <= 9 {
             display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+            ticker.set(4);
+            fraction.set(1);
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            fraction.set(0);
+            }
+            
             }
             else {
             current_number.set(*first_number + *second_number);
+            if {*current_number}.to_string().chars().count() <= 9 {
             display.set({*current_number}.to_string());
-            fraction.set(0)
+            ticker.set(4);
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            }
+            fraction.set(0);    
             }
             }
             else if *operator == 2 {
@@ -53,52 +76,141 @@ fn Calculator() -> Html {
             fraction.set(1);
             current_number_numerator.set((*current_number_numerator - (*second_number * *current_number_denominator))/ greatestcommondivisor);
             current_number_denominator.set(*current_number_denominator / greatestcommondivisor);
+            if ({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string()).chars().count() <=9{
             display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+            ticker.set(4);
+            fraction.set(1)
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            fraction.set(0);    
+            }
             }
             else {
             current_number.set(*first_number - *second_number);
+            if {*current_number}.to_string().chars().count() <= 9 {
             display.set({*current_number}.to_string());
-            fraction.set(0)
+            ticker.set(4);
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);   
+            }
+            fraction.set(0);
             }
             }
             else if *operator == 3 {
-            let greatestcommondivisor: i32 = gcd(*current_number_numerator * *second_number, *current_number_denominator);
-            if *current_number_denominator/greatestcommondivisor == 1 {
-            current_number.set((*current_number_numerator * *second_number) / greatestcommondivisor);
-            display.set({*current_number}.to_string());
+            
+            let current_numerator64: i64 = (*current_number_numerator).into();
+            let current_denominator64: i64 = (*current_number_denominator).into();
+            let second_number64: i64 = (*second_number).into();
+            let greatestcommondivisor64 : i64 = gcd(current_numerator64 * second_number64, current_denominator64);
+            if current_denominator64/greatestcommondivisor64 == 1 {
+            let current_number64: i64 = (current_numerator64 * second_number64) / greatestcommondivisor64;
+            if current_number64.to_string().chars().count() <= 9 {
+            display.set({current_number64}.to_string());
+            ticker.set(4);
+            current_number.set(current_number64 as i32);
+            current_number_denominator.set((current_denominator64/greatestcommondivisor64) as i32);
+            current_number_numerator.set((current_numerator64/greatestcommondivisor64) as i32);
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            }
             fraction.set(0)
             }
-            else if *current_number_denominator/greatestcommondivisor > 1 {
-                current_number_numerator.set((*current_number_numerator * *second_number) / greatestcommondivisor);
-                current_number_denominator.set(*current_number_denominator / greatestcommondivisor);
+            else if current_denominator64/greatestcommondivisor64 > 1 {
+                let current_number_numerator64 = current_numerator64 * second_number64 / greatestcommondivisor64;
+                let current_number_denominator64: i64 = current_denominator64 / greatestcommondivisor64;
+                if ({current_number_numerator64}.to_string() + "/" + &{current_number_denominator64}.to_string()).chars().count() <= 9 {
                 fraction.set(1);
-                display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+                ticker.set(4);
+                display.set({current_number_numerator64}.to_string() + "/" + &{current_number_denominator64}.to_string());
+                current_number_denominator.set((current_denominator64/greatestcommondivisor64) as i32);
+                current_number_numerator.set((current_numerator64/greatestcommondivisor64) as i32);
+                }
+                else {
+                display.set("ERROR".to_string());
+                ticker.set(3);
+                current_number.set(0);
+                current_number_denominator.set(0);
+                current_number_numerator.set(0);
+                fraction.set(0)
+                }
             }
             }
             else if *operator == 4 {
-            let greatestcommondivisor: i32 = gcd(*current_number_numerator, *second_number * *current_number_denominator);
-            if (*second_number * *current_number_denominator)/greatestcommondivisor > 1{
-            current_number_numerator.set(*current_number_numerator/greatestcommondivisor);
-            current_number_denominator.set(*second_number * *current_number_denominator/greatestcommondivisor);
-            fraction.set(1);
-            display.set({*current_number_numerator}.to_string() + "/" + &{*current_number_denominator}.to_string());
+            let current_numerator64: i64 = (*current_number_numerator).into();
+            let current_denominator64: i64 = (*current_number_denominator).into();
+            let second_number64: i64 = (*second_number).into();
+            let greatestcommondivisor64 : i64 = gcd(current_numerator64, second_number64 * current_denominator64);
+            if *current_number == 0 {
+            if current_numerator64 == 0 {
+                current_number.set(0);
+                fraction.set(0);
+                ticker.set(4);
+                display.set(current_number.to_string());
             }
-            else if {(*second_number * *current_number_denominator)/greatestcommondivisor} == 1 {
-            current_number.set(*current_number_numerator/greatestcommondivisor);
-            display.set({*current_number}.to_string());
+            }
+            else if (second_number64 * current_denominator64)/greatestcommondivisor64 > 1{
+            let current_number_numerator64 = current_numerator64/greatestcommondivisor64;
+            let current_number_denominator64 = second_number64 * current_denominator64/greatestcommondivisor64;
+            if ({current_number_numerator64}.to_string() + "/" + &{current_number_denominator64}.to_string()).chars().count() <= 9 {
+            display.set({current_number_numerator64}.to_string() + "/" + &{current_number_denominator64}.to_string());
+            fraction.set(1);
+            ticker.set(4);
+            current_number_denominator.set(current_number_denominator64 as i32);
+            current_number_numerator.set(current_number_numerator64 as i32);
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            fraction.set(0)
+            }
+            }
+            else if {second_number64 * current_denominator64/greatestcommondivisor64} == 1 {
+            let current_number64 = current_numerator64/greatestcommondivisor64;
+            if (current_number64).to_string().chars().count() <= 9 {
+            display.set({current_number64}.to_string());
+            ticker.set(4);
+            current_number_denominator.set((current_denominator64/greatestcommondivisor64) as i32);
+            current_number_numerator.set((current_numerator64/greatestcommondivisor64) as i32);
+            current_number.set(current_number64 as i32);
+            }
+            else {
+            display.set("ERROR".to_string());
+            ticker.set(3);
+            current_number.set(0);
+            current_number_denominator.set(0);
+            current_number_numerator.set(0);
+            }
             fraction.set(0);
             }
             else if *second_number == 0 {
-                display.set("error".to_string());
+                display.set("ERROR".to_string());
                 current_number.set(0);
                 current_number_denominator.set(0);
                 current_number_numerator.set(0);
                 fraction.set(0);
+                ticker.set(3);
             }
         }   
             second_number.set(0);
             first_number.set(0);
-            ticker.set(0);
         }
         else{}
     })
@@ -119,7 +231,7 @@ fn Calculator() -> Html {
             second_number.set(0);
             first_number.set(0);
             current_number.set(0);
-            current_number_denominator.set(0);
+            current_number_denominator.set(1);
             current_number_numerator.set(0);
             fraction.set(0);
             operator.set(0);
@@ -133,23 +245,33 @@ fn Calculator() -> Html {
         let current_number = current_number.clone();
         let ticker = ticker.clone();
         Callback::from(move |_: MouseEvent| {
-            if *ticker == 0 {
+            if *ticker == 0{
             ticker.set(1);
             operator.set(operator_type);
             first_number.set(*current_number);
             current_number.set(0);
         }
-        else{}
+        else if *ticker == 4{
+            ticker.set(1);
+            operator.set(operator_type);
+            first_number.set(*current_number);
+            current_number.set(0);
+        }
     })
     };
 
         let digit_update = |digit: i32| {
         let current_number = current_number.clone();
         let display = display.clone();
+        let ticker = ticker.clone();
         Callback::from(move |_: MouseEvent|  {
+            if *ticker != 3 {
+            if {*current_number * 10 + digit}.to_string().chars().count() <= 9 {
             let value = *current_number *10 + digit;
             current_number.set(value);
             display.set({*current_number}.to_string());
+            }
+            }
         })
     };
 
@@ -188,6 +310,7 @@ fn Calculator() -> Html {
         </p>
         </div>
         </div>
+
     }
 }
 
